@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shorksi | Bio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --grid-color: rgba(255, 255, 255, 0.06);
+            --glow-color: rgba(147, 51, 234, 0.28);
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #a855f7;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* GRID ANIMATION */
+        #grid-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -2;
+            animation: moveGrid 4s linear infinite; /* Hier die Sekunden ändern für Speed */
+        }
+        @keyframes moveGrid { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+
+
+        /* MOUSE GLOW */
+        #mouse-glow {
+            position: fixed; top: 0; left: 0; width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(40px);
+            transform: translate3d(-100%, -100%, 0);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+            z-index: 10;
+            padding: 40px 0;
+        }
+
+        .profile-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; opacity: 0.3; margin-bottom: 2px; display: block; }
+        h1 { font-size: 4rem; margin: 0; font-weight: 800; letter-spacing: -2px; }
+
+        .badge-pill {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            display: inline-flex; gap: 15px; padding: 10px 25px; border-radius: 50px; margin: 20px 0;
+        }
+        .badge-pill i { font-size: 0.9rem; color: #d8b4fe; }
+
+        .tagline { font-size: 1.1rem; opacity: 0.8; margin: 5px 0; font-family: 'Courier New', monospace; }
+        .location { font-size: 0.85rem; opacity: 0.4; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+        /* DISCORD ACTIVITY BOX */
+        .discord-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+        }
+        .avatar-container { position: relative; width: 50px; height: 50px; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--glass-border); }
+        .status-dot {
+            position: absolute; bottom: 1px; right: 1px;
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 2px solid #000; background-color: #6b7280;
+        }
+        .act-text { display: flex; flex-direction: column; overflow: hidden; }
+        .act-name { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .act-detail { font-size: 0.8rem; opacity: 0.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* LINKS */
+        .links-container { display: flex; flex-direction: column; gap: 12px; }
+        .link-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+            padding: 16px; border-radius: 16px; text-decoration: none; color: white;
+            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 15px;
+        }
+        .link-card:hover { background: rgba(147, 51, 234, 0.08); border-color: var(--accent-purple); transform: scale(1.02); }
+        .link-title { font-weight: 700; font-size: 1.1rem; }
+        .link-url { font-size: 0.7rem; opacity: 0.3; }
+        .text-stack { display: flex; flex-direction: column; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div id="grid-background"></div>
+    <div id="mouse-glow"></div>
+
+    <div class="container">
+        <span class="profile-label">Social Links</span>
+        <h1>Shorksi</h1>
+
+        <p class="tagline">"idiot von beruf"</p>
+
+        <!-- DISCORD LIVE SECTION -->
+        <div class="discord-box">
+            <div class="avatar-container">
+                <img src="https://via.placeholder.com/50" id="discord-avatar" class="avatar" alt="Avatar">
+                <div class="status-dot" id="discord-status"></div>
+            </div>
+            <div class="act-text">
+                <span class="act-name" id="act-name">Loading...</span>
+                <span class="act-detail" id="act-detail">Connecting to Lanyard</span>
+            </div>
+        </div>
+
+        <!-- ALLE SOCIAL LINKS -->
+        <div class="links-container">
+            <a href="https://twitch.tv/shorksi/" target="_blank" class="link-card">
+                <i class="fa-brands fa-twitch"></i>
+                <div class="text-stack">
+                    <span class="link-title">Twitch</span>
+                    <span class="link-url">twitch.tv/shorksi</span>
+                </div>
+            </a>
+
+            <a href="https://youtube.com/@shorksi/" target="_blank" class="link-card">
+                <i class="fa-brands fa-youtube"></i>
+                <div class="text-stack">
+                    <span class="link-title">YouTube</span>
+                    <span class="link-url">youtube.com/@shorksi</span>
+                </div>
+            </a>
+
+            <a href="https://tiktok.com/@shorksi/" target="_blank" class="link-card">
+                <i class="fa-brands fa-tiktok"></i>
+                <div class="text-stack">
+                    <span class="link-title">TikTok</span>
+                    <span class="link-url">tiktok.com/@shorksi</span>
+                </div>
+            </a>
+
+            <a href="https://instagram.com/shorksii/" target="_blank" class="link-card">
+                <i class="fa-brands fa-instagram"></i>
+                <div class="text-stack">
+                    <span class="link-title">Instagram</span>
+                    <span class="link-url">instagram.com/shorksii</span>
+                </div>
+            </a>
+
+            <a href="https://discord.gg/KmBzTEQ2UM/" target="_blank" class="link-card">
+                <i class="fa-brands fa-discord"></i>
+                <div class="text-stack">
+                    <span class="link-title">Discord Server</span>
+                    <span class="link-url">discord.gg/KmBzTEQ2UM</span>
+                </div>
+            </a>
+
+            <a href="https://osu.ppy.sh/users/shorksi" target="_blank" class="link-card">
+                <i class="fa-solid fa-circle-play"></i>
+                <div class="text-stack">
+                    <span class="link-title">osu! Profile</span>
+                    <span class="link-url">osu.ppy.sh/shorksi</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // TRAGE HIER DEINE DISCORD ID EIN:
+        const MY_DISCORD_ID = "327418252659785738";
+
+        // Maus-Glow Effekt
+        const glow = document.getElementById('mouse-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.transform = `translate3d(${e.clientX - 400}px, ${e.clientY - 400}px, 0)`;
+        });
+
+        // Discord Status Lanyard
+        async function fetchStatus() {
+            try {
+                const r = await fetch(`https://api.lanyard.rest/v1/users/${MY_DISCORD_ID}`);
+                const { data } = await r.json();
+
+                // Avatar & Status
+                document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${MY_DISCORD_ID}/${data.discord_user.avatar}.png`;
+                const sColors = { online: '#22c55e', idle: '#f59e0b', dnd: '#ef4444', offline: '#6b7280' };
+                document.getElementById('discord-status').style.backgroundColor = sColors[data.discord_status];
+
+                const name = document.getElementById('act-name');
+                const det = document.getElementById('act-detail');
+
+                if (data.listening_to_spotify) {
+                    name.innerText = "Listening to Spotify";
+                    det.innerText = `${data.spotify.song} - ${data.spotify.artist}`;
+                } else if (data.activities.length > 0) {
+                    const act = data.activities.find(x => x.type === 0) || data.activities[0];
+                    name.innerText = act.name;
+                    det.innerText = act.details || "In Progress";
+                } else {
+                    name.innerText = data.discord_user.username;
+                    det.innerText = data.discord_status.toUpperCase();
+                }
+            } catch (e) { console.log("Lanyard error"); }
+        }
+        setInterval(fetchStatus, 10000); fetchStatus();
+    </script>
+</body>
+</html>
