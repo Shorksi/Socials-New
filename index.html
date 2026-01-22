@@ -251,7 +251,7 @@
 
         // SOUND SETUP (Lautstärke auf 25%)
         const fbSound = new Audio('https://www.myinstants.com/media/sounds/flashbang-sound.mp3');
-        fbSound.volume = 0.02;
+        fbSound.volume = 1;
 
         function triggerFlashbang() {
             // 1. Sound sofort starten
@@ -268,7 +268,7 @@
 
                 // Fade-Back Prozess
                 setTimeout(() => {
-                    overlay.style.transition = 'opacity 5s ease-out';
+                    overlay.style.transition = 'opacity 2s ease-out';
                     overlay.style.opacity = '0';
                 }, 50);
             }, 500);
