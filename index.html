@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shorksi | Bio</title>
+    <title>shorksi | Bio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -31,7 +31,18 @@
             cursor: default;
         }
 
-        /* SCHNELLES GRID */
+        /* FLASHBANG OVERLAY */
+        #flashbang-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: white;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* SCHNELLES GRID (4s) */
         #grid-background {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
@@ -41,7 +52,7 @@
         }
         @keyframes moveGrid { from { background-position: 0 0; } to { background-position: 60px 60px; } }
 
-        /* MOUSE GLOW */
+        /* MOUSE GLOW (Lila) */
         #mouse-glow {
             position: fixed; top: 0; left: 0; width: 800px; height: 800px;
             background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
@@ -73,7 +84,7 @@
         .tagline { font-size: 1.1rem; opacity: 0.8; margin: 5px 0; font-family: 'Courier New', monospace; }
         .location { font-size: 0.85rem; opacity: 0.4; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
-        /* DISCORD ACTIVITY BOX (OBEN) */
+        /* DISCORD ACTIVITY BOX */
         .discord-box {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -97,7 +108,7 @@
         .act-name { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .act-detail { font-size: 0.8rem; opacity: 0.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* SPOTIFY INTEGRATION (ZUSATZ-PANEL) */
+        /* SPOTIFY INTEGRATION */
         #spotify-container {
             max-height: 0;
             opacity: 0;
@@ -105,43 +116,20 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 0;
         }
-
-        #spotify-container.active {
-            max-height: 120px;
-            opacity: 1;
-            margin-bottom: 25px;
-        }
-
+        #spotify-container.active { max-height: 120px; opacity: 1; margin-bottom: 25px; }
         .spotify-card {
             background: rgba(29, 185, 84, 0.05);
             border: 1px solid rgba(29, 185, 84, 0.2);
             border-radius: 18px;
             padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
+            display: flex; align-items: center; gap: 15px; text-align: left;
             backdrop-filter: blur(10px);
         }
-
-        .spotify-art {
-            width: 55px; height: 55px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
+        .spotify-art { width: 55px; height: 55px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .spotify-info { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
         .spotify-song { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .spotify-artist { font-size: 0.75rem; opacity: 0.6; margin-bottom: 4px; }
-        .spotify-link {
-            color: var(--spotify-green);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        .spotify-link { color: var(--spotify-green); text-decoration: none; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
 
         /* LINKS */
         .links-container { display: flex; flex-direction: column; gap: 12px; }
@@ -151,15 +139,21 @@
             backdrop-filter: blur(15px);
             padding: 16px; border-radius: 16px; text-decoration: none; color: white;
             transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 15px;
+            cursor: pointer;
         }
         .link-card:hover { background: rgba(147, 51, 234, 0.08); border-color: var(--accent-purple); transform: scale(1.02); }
         .link-title { font-weight: 700; font-size: 1.1rem; }
         .link-url { font-size: 0.7rem; opacity: 0.3; }
 
+        /* FLASHBANG BTN SPECIAL */
+        .flashbang-btn:hover { background: white; color: black; }
+        .flashbang-btn:hover .link-url { color: black; opacity: 0.6; }
+
     </style>
 </head>
 <body>
 
+    <div id="flashbang-overlay"></div>
     <div id="grid-background"></div>
     <div id="mouse-glow"></div>
 
@@ -169,7 +163,7 @@
 
         <p class="tagline">"Idiot von Beruf"</p>
 
-        <!-- DISCORD ACTIVITY (Nur Status/Games) -->
+        <!-- DISCORD BOX -->
         <div class="discord-box">
             <div class="avatar-container">
                 <img src="https://via.placeholder.com/50" id="discord-avatar" class="avatar" alt="Avatar">
@@ -181,7 +175,7 @@
             </div>
         </div>
 
-        <!-- SPOTIFY CARD (Erscheint nur beim Musikhören) -->
+        <!-- SPOTIFY (AUTO-PUSH) -->
         <div id="spotify-container">
             <div class="spotify-card">
                 <img src="" id="spot-art" class="spotify-art" alt="Album Art">
@@ -195,8 +189,9 @@
             </div>
         </div>
 
-        <!-- SOCIAL LINKS -->
         <div class="links-container">
+
+            <!-- FLASHBANG -->
             <a href="https://twitch.tv/shorksi/" target="_blank" class="link-card">
                 <i class="fa-brands fa-twitch"></i>
                 <div style="display:flex; flex-direction:column; align-items:center;">
@@ -238,13 +233,46 @@
                     <span class="link-title">osu! Profile</span>
                     <span class="link-url">osu.ppy.sh/shorksi</span>
                 </div>
+                 </a>
+            <div class="link-card flashbang-btn" onclick="triggerFlashbang()">
+                <i class="fa-solid fa-bomb"></i>
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                    <span class="link-title">Überraschung hihi</span>
+                    <span class="link-url">hehehehaw</span>
+                </div>
+            </div>
             </a>
         </div>
     </div>
 
     <script>
-        // HIER DEINE DISCORD ID EINTRAGEN
+        // --- DEINE DISCORD ID HIER EINTRAGEN ---
         const MY_DISCORD_ID = "327418252659785738";
+
+        // SOUND SETUP (Lautstärke auf 25%)
+        const fbSound = new Audio('https://www.myinstants.com/media/sounds/flashbang-sound.mp3');
+        fbSound.volume = 0.02;
+
+        function triggerFlashbang() {
+            // 1. Sound sofort starten
+            fbSound.currentTime = 0;
+            fbSound.play();
+
+            // 2. Exakt 1 Sekunde (1000ms) warten, dann flashen
+            setTimeout(() => {
+                const overlay = document.getElementById('flashbang-overlay');
+
+                // Sofort weiß
+                overlay.style.transition = 'none';
+                overlay.style.opacity = '1';
+
+                // Fade-Back Prozess
+                setTimeout(() => {
+                    overlay.style.transition = 'opacity 5s ease-out';
+                    overlay.style.opacity = '0';
+                }, 50);
+            }, 500);
+        }
 
         const glow = document.getElementById('mouse-glow');
         window.addEventListener('mousemove', (e) => {
@@ -258,16 +286,13 @@
                 if (!response.success) return;
                 const data = response.data;
 
-                // --- AVATAR & STATUS PUNKT ---
-                const avatarImg = data.discord_user.avatar
+                document.getElementById('discord-avatar').src = data.discord_user.avatar
                     ? `https://cdn.discordapp.com/avatars/${MY_DISCORD_ID}/${data.discord_user.avatar}.png`
                     : `https://cdn.discordapp.com/embed/avatars/0.png`;
-                document.getElementById('discord-avatar').src = avatarImg;
 
                 const sColors = { online: '#22c55e', idle: '#f59e0b', dnd: '#ef4444', offline: '#6b7280' };
                 document.getElementById('discord-status').style.backgroundColor = sColors[data.discord_status] || sColors.offline;
 
-                // --- SPOTIFY PANEL (UNTEN) ---
                 if (data.listening_to_spotify && data.spotify) {
                     document.getElementById('spotify-container').classList.add('active');
                     document.getElementById('spot-art').src = data.spotify.album_art_url;
@@ -278,33 +303,25 @@
                     document.getElementById('spotify-container').classList.remove('active');
                 }
 
-                // --- DISCORD BOX TEXT (OBEN) ---
-                // Wir filtern Spotify aus den Aktivitäten raus, damit es hier nicht erscheint.
-                const gameActivity = data.activities.find(act => act.type === 0); // Echtes Spiel
-                const customStatus = data.activities.find(act => act.type === 4); // Custom Status (Text unter Name)
-
-                const nameElement = document.getElementById('act-name');
-                const detailElement = document.getElementById('act-detail');
+                const gameActivity = data.activities.find(act => act.type === 0);
+                const customStatus = data.activities.find(act => act.type === 4);
+                const nameE = document.getElementById('act-name');
+                const detE = document.getElementById('act-detail');
 
                 if (gameActivity) {
-                    // Wenn du ein Spiel spielst
-                    nameElement.innerText = gameActivity.name;
-                    detailElement.innerText = gameActivity.details || "In a Match";
+                    nameE.innerText = gameActivity.name;
+                    detE.innerText = gameActivity.details || "In a Match";
                 } else if (customStatus) {
-                    // Wenn du kein Spiel hast, aber einen Custom Status (z.B. "Idiot von Beruf")
-                    nameElement.innerText = data.discord_user.username;
-                    detailElement.innerText = customStatus.state || "";
+                    nameE.innerText = data.discord_user.username;
+                    detE.innerText = customStatus.state || "";
                 } else {
-                    // Wenn gar nichts aktiv ist oder nur Spotify (das wir hier ignorieren)
-                    nameElement.innerText = data.discord_user.username;
-                    detailElement.innerText = data.discord_status.toUpperCase();
+                    nameE.innerText = data.discord_user.username;
+                    detE.innerText = data.discord_status.toUpperCase();
                 }
-
-            } catch (e) { console.error("Lanyard Error:", e); }
+            } catch (e) { console.error(e); }
         }
 
-        setInterval(fetchStatus, 100);
-        fetchStatus();
+        setInterval(fetchStatus, 100); fetchStatus();
     </script>
 </body>
 </html>
