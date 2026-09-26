@@ -10,16 +10,16 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg:           #09090f;
-            --card:         #10101a;
-            --purple:       #a855f7;
-            --purple-dim:   #7c3aed;
-            --purple-glow:  rgba(168, 85, 247, 0.28);
-            --purple-soft:  rgba(168, 85, 247, 0.12);
-            --text:         #f0eeff;
-            --muted:        #7b7a9a;
-            --border:       rgba(168, 85, 247, 0.18);
-            --border-hover: rgba(168, 85, 247, 0.6);
+            --bg:           #0e0e10;
+            --card:         #18181b;
+            --purple:       #9147ff;
+            --purple-dim:   #772ce8;
+            --purple-glow:  rgba(145, 71, 255, 0.18);
+            --purple-soft:  rgba(145, 71, 255, 0.12);
+            --text:         #efeff1;
+            --muted:        #a1a1aa;
+            --border:       #2d2d30;
+            --border-hover: rgba(145, 71, 255, 0.7);
             --green:        #1db954;
         }
 
@@ -103,12 +103,12 @@
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Inter', sans-serif;
+            font-family: system-ui, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 48px 20px 80px;
+            padding: 40px 20px 64px;
             overflow-x: hidden;
         }
 
@@ -568,6 +568,58 @@
         .link-btn:has(.ic-osu):hover       { box-shadow: 0 10px 32px rgba(255,102,171,0.28);}
 
         .osu-svg { width: 19px; height: 19px; }
+
+        /* Match the restrained Twitch dashboard styling. */
+        .aurora, .aurora2, #particles { display: none; }
+        .container { max-width: 480px; }
+        .avatar-wrap { animation: none; }
+        .avatar-ring {
+            background: var(--purple);
+            animation: none;
+        }
+        .avatar-ring::after { inset: 2px; }
+        .avatar { animation: none; }
+        .header h1 {
+            background: none;
+            color: var(--text);
+            -webkit-text-fill-color: currentColor;
+            animation: none;
+        }
+        .card {
+            border-radius: 10px;
+            border-color: var(--border);
+            padding: 16px;
+        }
+        .card:hover {
+            border-color: #3a3a3d;
+            box-shadow: none;
+        }
+        .activity-row { background: #1f1f23; border-radius: 8px; }
+        .activity-img { border-radius: 6px; }
+        .activity-img img { border-radius: 6px; }
+        .link-btn {
+            border-radius: 8px;
+            border-color: var(--border);
+            padding: 12px 14px;
+            box-shadow: none;
+        }
+        .link-btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: none;
+        }
+        .link-btn::before, .link-btn::after { display: none; }
+        .link-btn:hover .link-icon { animation: none; }
+        .link-btn:has(.ic-twitch):hover,
+        .link-btn:has(.ic-youtube):hover,
+        .link-btn:has(.ic-tiktok):hover,
+        .link-btn:has(.ic-instagram):hover,
+        .link-btn:has(.ic-discord):hover,
+        .link-btn:has(.ic-osu):hover { box-shadow: none; }
+
+        @media (max-width: 480px) {
+            body { padding: 28px 16px 48px; }
+        }
     </style>
 </head>
 <body>
